@@ -20,7 +20,7 @@ jobs:
               },
               {
                 "type": "body",
-                "regex": ".*\\* (Animite version|Android version|Device): \\?.*",
+                "regex": ".*\\* (Animiru version|Android version|Device): \\?.*",
                 "message": "Requested information in the template was not filled out."
               }
             ]
