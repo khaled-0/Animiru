@@ -74,13 +74,18 @@ jobs:
           tag_name: ${{ env.VERSION_TAG }}upd
           name: Animiru ${{ env.VERSION_TAG }}
           body: |
+            ### Changes
+
+            -
+
+
             ---
 
             ### Checksums
 
             | Variant | SHA-256 |
             | ------- | ------- |
-            | Universal | ${{ env.APK_UNIVERSAL_SHA }}
+            | Universal | ${{ env.APK_UNIVERSAL_SHA }} |
 
           files: |
             Animiru-${{ env.VERSION_TAG }}.apk
