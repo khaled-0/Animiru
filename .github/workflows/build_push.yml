@@ -63,7 +63,7 @@ jobs:
         run: |
           set -e
 
-          mv app/build/outputs/apk/standard/release/app-standard-universal-release-unsigned-signed.apk Animiru-${{ env.VERSION_TAG }}.apk
+          mv app/build/outputs/apk/standard/release/app-standard-universal-release-unsigned-signed.apk Animiru-universal-${{ env.VERSION_TAG }}.apk
           sha=`sha256sum Animiru-${{ env.VERSION_TAG }}.apk | awk '{ print $1 }'`
           echo "APK_UNIVERSAL_SHA=$sha" >> $GITHUB_ENV
 
@@ -123,7 +123,7 @@ jobs:
 
 
           files: |
-            Animiru-Universal-${{ env.VERSION_TAG }}.apk
+            Animiru-universal-${{ env.VERSION_TAG }}.apk
             Animiru-arm64-v8a-${{ env.VERSION_TAG }}.apk
             Animiru-armeabi-v7a-${{ env.VERSION_TAG }}.apk
             Animiru-x86-${{ env.VERSION_TAG }}.apk
