@@ -90,17 +90,33 @@ jobs:
           tag_name: ${{ env.VERSION_TAG }}
           name: Animiru ${{ env.VERSION_TAG }}
           body: |
+            ### Changes
+            
+            - 
+            
             ---
 
             ### Checksums
 
             | Variant | SHA-256 |
             | ------- | ------- |
-            | Universal | ${{ env.APK_UNIVERSAL_SHA }}
-            | arm64-v8a | ${{ env.APK_ARM64_V8A_SHA }}
-            | armeabi-v7a | ${{ env.APK_ARMEABI_V7A_SHA }}
-            | x86 | ${{ env.APK_X86_SHA }}
+            | Universal | ${{ env.APK_UNIVERSAL_SHA }} |
+            | arm64-v8a | ${{ env.APK_ARM64_V8A_SHA }} |
+            | armeabi-v7a | ${{ env.APK_ARMEABI_V7A_SHA }} |
+            | x86 | ${{ env.APK_X86_SHA }} |
             | x86_64 | ${{ env.APK_X86_64_SHA }} |
+            
+            To find out the best version for you:-
+
+            https://play.google.com/store/apps/details?id=ru.andr7e.deviceinfohw
+
+            Download the app from the link above ^
+
+            Open app ---> SOC tab ---> ABI/Supported ABI
+
+            Install based on the values given in the above variant fields
+
+            Universal will work regardless of the ABI
           files: |
             Animiru-${{ env.VERSION_TAG }}.apk
             Animiru-arm64-v8a-${{ env.VERSION_TAG }}.apk
