@@ -30,7 +30,7 @@ jobs:
           java-version: 11
           distribution: adopt
 
-      - name: Build app and run unit tests
+      - name: Build release app and run unit tests
         uses: gradle/gradle-command-action@v2
         with:
           arguments: assembleStandardRelease testStandardReleaseUnitTest
@@ -53,6 +53,14 @@ jobs:
           alias: ${{ secrets.ALIAS }}
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}
+          
+      - name: Build debug APK
+        uses: gradle/gradle-command-action@v1
+        with:
+          arguments: assembleDevDebug 
+          distributions-cache-enabled: true
+          dependencies-cache-enabled: true
+          configuration-cache-enabled: true    
 
       - name: Clean up build artifacts
         if: startsWith(github.ref, 'refs/tags/') && github.repository == 'Quickdesh/Animiru'
@@ -78,6 +86,10 @@ jobs:
           cp app/build/outputs/apk/standard/release/app-standard-x86_64-release-unsigned-signed.apk Animiru-x86_64-${{ env.VERSION_TAG }}.apk
           sha=`sha256sum Animiru-x86_64-${{ env.VERSION_TAG }}.apk | awk '{ print $1 }'`
           echo "APK_X86_64_SHA=$sha" >> $GITHUB_ENV
+          
+          cp app/build/outputs/apk/dev/debug/app-dev-arm64-v8a-debug-unsigned-signed.apk Animiru-debug-${{ env.VERSION_TAG }}.apk
+          sha=`sha256sum Animiru-debug-${{ env.VERSION_TAG }}.apk | awk '{ print $1 }'`
+          echo "APK_DEBUG_SHA=$sha" >> $GITHUB_ENV
 
       - name: Create Release
         if: startsWith(github.ref, 'refs/tags/') && github.repository == 'Quickdesh/Animiru'
@@ -101,6 +113,7 @@ jobs:
             | armeabi-v7a | ${{ env.APK_ARMEABI_V7A_SHA }} |
             | x86 | ${{ env.APK_X86_SHA }} |
             | x86_64 | ${{ env.APK_X86_64_SHA }} |
+            | Debug | ${{ env.APK_DEBUG_SHA }} |
             
             To find out the best version for you:-
 
@@ -113,12 +126,16 @@ jobs:
             Install based on the values given in the above variant fields
 
             Universal will work regardless of the ABI
+            
+            Debug is simply for dev work
+            
           files: |
             Animiru-${{ env.VERSION_TAG }}.apk
             Animiru-arm64-v8a-${{ env.VERSION_TAG }}.apk
             Animiru-armeabi-v7a-${{ env.VERSION_TAG }}.apk
             Animiru-x86-${{ env.VERSION_TAG }}.apk
             Animiru-x86_64-${{ env.VERSION_TAG }}.apk
+            Animiru-debug-${{ env.VERSION_TAG }}.apk
           draft: true
           prerelease: false
         env:
